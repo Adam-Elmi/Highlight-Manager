@@ -1966,6 +1966,7 @@
 	            this.header,
 	            this.preElement
 	        );
+	        document.addEventListener('DOMContentLoaded', () => Prism.highlightElement(this.codeElement));
 	    }
 
 	    getChilden() {
@@ -1977,6 +1978,22 @@
 	        ]
 	    }
 
+	    getPreElement() {
+	        return this.preElement;
+	    }
+
+	    getCodeElement() {
+	        return this.codeElement;
+	    }
+
+	    getContainer() {
+	        return this.container;
+	    }
+
+	    getHeader() {
+	        return this.header;
+	    }
+
 	    getColor(element) {
 	        const style = getComputedStyle(element);
 	        const color = style.backgroundColor;
@@ -1984,22 +2001,16 @@
 	        return color;
 	    }
 
-	    setBackground(element, color) {
-	        element.style.backgroundColor = color;
-	    }
-
 	    codeBlock(code) {
 	        this.codeElement.textContent = code;
 	    }
 
+	    
+	    
 	    setLang(lang) {
 	        this.codeElement.classList.add(`language-${lang}`);
 	    }
-
-	    insert(parent) {
-	        parent.appendChild(this.container);
-	        Prism.highlightElement(this.codeElement);
-	    }
+	    
 	    setTheme(theme) {
 	        const existingLink = document.querySelector(`#prism-theme`);
 	        if (existingLink) {
@@ -2015,17 +2026,105 @@
 	            }, 0);
 	        }
 	    }
+
+	    setBackground(element, color) {
+	        element.style.backgroundColor = color;
+	    }
+
+	    setStyle(element, styles) {
+	        element.style.cssText = styles;
+	    }
+
 	    setTitle(title) {
 	        this.header.textContent = title;
 	    }
+	    insert(parent) {
+	        parent.appendChild(this.container);
+	        this.preElement.classList.add("line-numbers");
+	        Prism.highlightElement(this.codeElement);
+	    
+	        const script = document.createElement("script");
+	        script.src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/line-numbers/prism-line-numbers.min.js";
+	        script.onload = () => {
+	            Prism.highlightElement(this.codeElement);
+	        };
+	        document.head.appendChild(script);
+	    }
+	    
+	    setNumberLine(option) {
+	        const cssHref = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/line-numbers/prism-line-numbers.min.css";
+	        const existingLink = document.querySelector(`#prism-line-number`);
+	    
+	        if (option === "true") {
+	            if (!existingLink) {
+	                const link = document.createElement("link");
+	                link.rel = "stylesheet";
+	                link.id = "prism-line-number";
+	                link.href = cssHref;
+	                document.head.appendChild(link);
+	            }
+	        }
+	    }
+	    
+	    
+	    
 	}
 
 	const staticHighlight = new Static();
-	staticHighlight.codeBlock('console.log("Hello Adam");');
-	staticHighlight.setLang('js');
+	staticHighlight.codeBlock(
+	    `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom CodeMirror Theme with Arrays Highlighting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="custom-theme.css"> <!-- Your custom theme -->
+    <style>
+        .CodeMirror {
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="editor"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+    <script>
+        const editor = CodeMirror(document.getElementById('editor'), {
+            mode: 'javascript',
+            theme: 'custom-theme', // Apply the custom theme
+            lineNumbers: true
+        });
+    </script> // I want to remove this star space
+</body>
+</html>
+
+    `
+	);
+	staticHighlight.setLang('html');
 	staticHighlight.setTheme('https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css');
 	staticHighlight.insert(document.body);
 	staticHighlight.setTitle("Javascript");
 	staticHighlight.setBackground(staticHighlight.getChilden()[2], "#111b3c");
+
+	const header = staticHighlight.getHeader();
+
+	staticHighlight.setStyle(header, `
+    padding: 10px;
+    border-bottom: 1.5px solid #44f;
+    color: #fff;
+    font-family: monospace;
+`);
+
+	const container = staticHighlight.getContainer();
+
+	staticHighlight.setStyle(container, `
+    // width: 500px;
+`);
+
+	staticHighlight.setNumberLine("true");
 
 })();
