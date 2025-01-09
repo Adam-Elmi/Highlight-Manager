@@ -1,0 +1,52 @@
+/* Base styling for the editor */
+.cm-s-custom-theme.CodeMirror {
+    background-color: #1e1e1e; /* Dark background */
+    color: #dcdcdc;           /* Default text color */
+}
+
+/* Styling for gutters (line numbers) */
+.cm-s-custom-theme .CodeMirror-gutters {
+    background: #252526;
+    border-right: 1px solid #3e3e3e;
+    color: #858585;
+}
+
+/* Line number styling */
+.cm-s-custom-theme .CodeMirror-linenumber {
+    color: #858585;
+}
+
+/* Syntax highlighting */
+.cm-s-custom-theme .cm-keyword { color: #569cd6; font-weight: bold; }
+.cm-s-custom-theme .cm-atom { color: #dcdcaa; }
+.cm-s-custom-theme .cm-number { color: #b5cea8; }
+.cm-s-custom-theme .cm-def { color: #9cdcfe; }
+.cm-s-custom-theme .cm-variable { color: #d4d4d4; }
+.cm-s-custom-theme .cm-variable-2 { color: #4ec9b0; }
+.cm-s-custom-theme .cm-string { color: #ce9178; }
+.cm-s-custom-theme .cm-comment { color: #6a9955; font-style: italic; }
+.cm-s-custom-theme .cm-operator { color: #dcdcdc; }
+
+/* Highlighting methods */
+.cm-s-custom-theme .cm-variable-3 { color: #dcdcaa; font-weight: bold; }
+
+/* Highlighting properties */
+.cm-s-custom-theme .cm-property { color: #4ec9b0; font-style: italic; }
+
+/* Highlighting classes */
+.cm-s-custom-theme .cm-def { color: #569cd6; font-weight: bold; }
+
+/* Highlighting object keys */
+.cm-s-custom-theme .cm-atom { color: #c586c0; font-style: italic; }
+
+/* Highlighting array literals */
+.cm-s-custom-theme .cm-bracket { color: #dcdcaa; font-weight: bold; } /* Brackets [ ] */
+.cm-s-custom-theme .cm-array { color: #dcdcaa; font-weight: bold; }  /* Array contents */
+
+/* Array values (numbers, strings) */
+.cm-s-custom-theme .cm-variable-3 { color: #dcdcaa; font-weight: bold; } /* Values in arrays */
+
+/* Cursor styling */
+.cm-s-custom-theme .CodeMirror-cursor {
+    border-left: 1px solid #ffffff;
+}
