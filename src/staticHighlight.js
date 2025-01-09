@@ -13,6 +13,21 @@ class Static {
         )
     }
 
+    getChilden() {
+        return [
+            this.container,
+            this.header,
+            this.preElement,
+            this.codeElement
+        ]
+    }
+
+    getColor(element) {
+        const style = getComputedStyle(element);
+        const color = style.backgroundColor;
+        return color;
+    }
+
     codeBlock(code) {
         this.codeElement.textContent = code;
     }
@@ -37,6 +52,12 @@ class Static {
             document.head.appendChild(link);
         }
     }
+    setTitle(title) {
+        this.header.textContent = title;
+    }
+    setBackground(element, color) {
+        element.style.backgroundColor = color;
+    }
 }
 
 const staticHighlight = new Static();
@@ -44,3 +65,5 @@ staticHighlight.codeBlock('console.log("Hello Adam");');
 staticHighlight.setLang('js');
 staticHighlight.setTheme('https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css');
 staticHighlight.insert(document.body);
+staticHighlight.setTitle("Javascript");
+staticHighlight.setBackground(staticHighlight.getChilden()[0], `${staticHighlight.getColor(staticHighlight.getChilden()[2])}`);
