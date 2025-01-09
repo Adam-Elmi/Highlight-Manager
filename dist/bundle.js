@@ -1980,12 +1980,24 @@
 	        parent.appendChild(this.container);
 	        Prism.highlightElement(this.codeElement);
 	    }
+	    setTheme(theme) {
+	        const existingLink = document.querySelector(`#prism-theme`);
+	        if (existingLink) {
+	            existingLink.href = theme;
+	        } else {
+	            const link = document.createElement("link");
+	            link.rel = "stylesheet";
+	            link.id = "prism-theme";
+	            link.href = theme;
+	            document.head.appendChild(link);
+	        }
+	    }
 	}
 
-	// Create a single instance of Static
 	const staticHighlight = new Static();
 	staticHighlight.codeBlock('console.log("Hello Adam");');
 	staticHighlight.setLang('js');
+	staticHighlight.setTheme('https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css');
 	staticHighlight.insert(document.body);
 
 })();
