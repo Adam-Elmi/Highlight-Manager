@@ -1,17 +1,15 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import css from 'rollup-plugin-css-only';
 
 export default {
-  input: 'src/staticHighlight.js', // Your entry JS file
+  input: 'src/staticHighlight.js',
   output: {
-    file: 'dist/bundle.js',         // Output bundle
-    format: 'iife',                 // IIFE format for browser compatibility
+    file: 'dist/bundle.js',
+    format: 'iife',
     name: 'MyLibrary',
   },
   plugins: [
     resolve(),
-    commonjs(),
-    css({ output: 'dist/styles.css' }) // Extract CSS to a separate file
+    commonjs()
   ]
 };
