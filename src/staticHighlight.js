@@ -10,7 +10,7 @@ class Static {
         this.container.append(
             this.header,
             this.preElement
-        )
+        );
     }
 
     getChilden() {
@@ -22,10 +22,23 @@ class Static {
         ]
     }
 
+    getPreElement() {
+
+    }
+
+    getCodeElement() {
+        
+    }
+
     getColor(element) {
         const style = getComputedStyle(element);
         const color = style.backgroundColor;
+        console.log(color);
         return color;
+    }
+
+    setBackground(element, color) {
+        element.style.backgroundColor = color;
     }
 
     codeBlock(code) {
@@ -50,13 +63,13 @@ class Static {
             link.id = "prism-theme";
             link.href = theme;
             document.head.appendChild(link);
+            setTimeout(() => {
+                this.setBackground(this.container, `${this.getColor(this.preElement)}`);
+            }, 0);
         }
     }
     setTitle(title) {
         this.header.textContent = title;
-    }
-    setBackground(element, color) {
-        element.style.backgroundColor = color;
     }
 }
 
@@ -66,4 +79,4 @@ staticHighlight.setLang('js');
 staticHighlight.setTheme('https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css');
 staticHighlight.insert(document.body);
 staticHighlight.setTitle("Javascript");
-staticHighlight.setBackground(staticHighlight.getChilden()[0], `${staticHighlight.getColor(staticHighlight.getChilden()[2])}`);
+staticHighlight.setBackground(staticHighlight.getChilden()[2], "#111b3c");
