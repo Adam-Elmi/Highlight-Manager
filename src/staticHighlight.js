@@ -4,6 +4,7 @@ class Static {
     constructor() {
         this.preElement = document.createElement("pre");
         this.codeElement = document.createElement("code");
+        this.codeElement.classList.add("language-js");
         this.preElement.appendChild(this.codeElement);
         this.container = document.createElement("div");
         this.header = document.createElement("div");
@@ -52,10 +53,11 @@ class Static {
     
     
     setLang(lang) {
+        this.codeElement.classList.remove("language-js");
         this.codeElement.classList.add(`language-${lang}`);
     }
     
-    setTheme(theme) {
+    setTheme(theme = "Prism-Themes/prism-atom-dark.css") {
         const existingLink = document.querySelector(`#prism-theme`);
         if (existingLink) {
             existingLink.href = theme;
@@ -67,7 +69,7 @@ class Static {
             document.head.appendChild(link);
             setTimeout(() => {
                 this.setBackground(this.container, `${this.getColor(this.preElement)}`);
-            }, 0);
+            }, 310)
         }
     }
 
@@ -83,7 +85,9 @@ class Static {
         this.header.textContent = title;
     }
     insert(parent) {
-        parent.appendChild(this.container);
+        setTimeout(() => {
+            parent.appendChild(this.container);
+        }, 300)
         this.preElement.classList.add("line-numbers");
         Prism.highlightElement(this.codeElement);
     
@@ -145,14 +149,13 @@ staticHighlight.codeBlock(
     </script> // I want to remove this star space
 </body>
 </html>
-
-    `
+`
 );
 staticHighlight.setLang('html');
-staticHighlight.setTheme('https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css');
+staticHighlight.setTheme("Prism-Themes/prism-atom-dark.css");
 staticHighlight.insert(document.body);
 staticHighlight.setTitle("Javascript");
-staticHighlight.setBackground(staticHighlight.getChilden()[2], "#111b3c");
+staticHighlight.setBackground(staticHighlight.getPreElement(), "#111b3c");
 
 const header = staticHighlight.getHeader();
 
