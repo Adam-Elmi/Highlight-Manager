@@ -1978,40 +1978,55 @@
 	        ]
 	    }
 
-	    getPreElement() {
-	        return this.preElement;
-	    }
-
-	    getCodeElement() {
-	        return this.codeElement;
+	    getElement({ name, element }) {
+	        if (!element) console.error(`${name} is not found.`);
+	        return element;
 	    }
 
 	    getContainer() {
-	        return this.container;
+	        return this.getElement({ name: "Container Element", element: this.container });
 	    }
 
 	    getHeader() {
-	        return this.header;
+	        return this.getElement({ name: "Header Element", element: this.header });
 	    }
 
+	    getPreElement() {
+	        return this.getElement({ name: "Pre Element", element: this.preElement });
+	    }
+
+	    getCodeElement() {
+	        return this.getElement({ name: "Code Element", element: this.codeElement });
+	    }
+
+
 	    getColor(element) {
-	        const style = getComputedStyle(element);
+	        if(!element) {
+	            console.error("Element to get the color from not found.");
+	            return;
+	        }        const style = getComputedStyle(element);
 	        const color = style.backgroundColor;
 	        console.log(color);
 	        return color;
 	    }
 
 	    codeBlock(code) {
-	        this.codeElement.textContent = code;
+	        if(code) {
+	            this.codeElement.textContent = code;
+	        } else {
+	            console.error("Code text is not found.");
+	        }
 	    }
 
-	    
-	    
 	    setLang(lang) {
+	        if(!lang) {
+	            console.error("Language is not selected. Default language is js.");
+	            return;
+	        }
 	        this.codeElement.classList.remove("language-js");
 	        this.codeElement.classList.add(`language-${lang}`);
 	    }
-	    
+
 	    setTheme(theme = "Prism-Themes/prism-atom-dark.css") {
 	        const existingLink = document.querySelector(`#prism-theme`);
 	        if (existingLink) {
@@ -2029,14 +2044,33 @@
 	    }
 
 	    setBackground(element, color) {
+	        if(!element) {
+	            console.error("You can't set the background because the element is not found.");
+	            return;
+	        } else if(!color) {
+	            console.error("You can't set the background because no color is selected.");
+	            return;
+	        }
+
 	        element.style.backgroundColor = color;
 	    }
 
 	    setStyle(element, styles) {
+	        if(!element) {
+	            console.error("You can't set the styles because the element is not found.");
+	            return;
+	        } else if(!styles) {
+	            console.error("You can't set the styles because no styles is written.");
+	            return;
+	        }
 	        element.style.cssText = styles;
 	    }
 
 	    setTitle(title) {
+	        if(!title) {
+	            console.error("Title is not found.");
+	            return;
+	        }
 	        this.header.textContent = title;
 	    }
 	    insert(parent) {
@@ -2045,7 +2079,7 @@
 	        }, 300);
 	        this.preElement.classList.add("line-numbers");
 	        Prism.highlightElement(this.codeElement);
-	    
+
 	        const script = document.createElement("script");
 	        script.src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/line-numbers/prism-line-numbers.min.js";
 	        script.onload = () => {
@@ -2053,11 +2087,11 @@
 	        };
 	        document.head.appendChild(script);
 	    }
-	    
+
 	    setNumberLine(option) {
 	        const cssHref = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/line-numbers/prism-line-numbers.min.css";
 	        const existingLink = document.querySelector(`#prism-line-number`);
-	    
+
 	        if (option === "true") {
 	            if (!existingLink) {
 	                const link = document.createElement("link");
@@ -2068,45 +2102,18 @@
 	            }
 	        }
 	    }
-	    
-	    
-	    
+
+	    wrap(operation) {
+	        setTimeout(() => {
+	            operation();
+	        }, 310);
+	    }
+
 	}
 
 	const staticHighlight = new Static();
-	staticHighlight.codeBlock(
-	    `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom CodeMirror Theme with Arrays Highlighting</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-    <link rel="stylesheet" href="custom-theme.css"> <!-- Your custom theme -->
-    <style>
-        .CodeMirror {
-            height: 300px;
-        }
-    </style>
-</head>
-<body>
-    <div id="editor"></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
-    <script>
-        const editor = CodeMirror(document.getElementById('editor'), {
-            mode: 'javascript',
-            theme: 'custom-theme', // Apply the custom theme
-            lineNumbers: true
-        });
-    </script> // I want to remove this star space
-</body>
-</html>
-`
-	);
-	staticHighlight.setLang('html');
+	staticHighlight.codeBlock("console.log('Hello Adam');");
+	staticHighlight.setLang('js');
 	staticHighlight.setTheme("Prism-Themes/prism-atom-dark.css");
 	staticHighlight.insert(document.body);
 	staticHighlight.setTitle("Javascript");
@@ -2124,9 +2131,13 @@
 	const container = staticHighlight.getContainer();
 
 	staticHighlight.setStyle(container, `
-    // width: 500px;
+    width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
 `);
 
 	staticHighlight.setNumberLine("true");
+
+	document.querySelector(".con").appendChild(container);
 
 })();
