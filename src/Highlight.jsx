@@ -1,16 +1,17 @@
 import React, { useEffect, useRef} from "react";
+import PropTypes from 'prop-types';
 import Prism from "prismjs";
 
 const Highlight = ({
-  codeBlock,
-  lang = "js",
-  title = "",
-  containerStyles,
-  headerStyles,
-  preStyles,
-  codeStyles,
-  buttonStyles,
-  titleStyles,
+  code,
+  language,
+  title,
+  container,
+  header,
+  pre,
+  codeStyle,
+  button,
+  titleStyle,
 }) => {
   const codeRef = useRef();
 
@@ -20,7 +21,7 @@ const Highlight = ({
     }
   }, []);
   return (
-    <div id="container" style={{display: "flex" , flexDirection: "column",border: "1.5px solid #ccc" , ...containerStyles }}>
+    <div id="container" style={{display: "flex" , flexDirection: "column",border: "1.5px solid #ccc" , ...container}}>
       <div
         style={{
           display: "flex",
@@ -31,10 +32,10 @@ const Highlight = ({
           padding: "10px",
           color: "#fff",
           fontFamily: "monospace",
-          ...headerStyles,
+          ...header,
         }}
       >
-        <p style={{...titleStyles}}>{title}</p>
+        <p style={{...titleStyle}}>{title}</p>
         <button
           style={{
             backgroundColor: "#122",
@@ -52,12 +53,28 @@ const Highlight = ({
         </button>
       </div>
       <pre style={{ ...preStyles }} ref={codeRef}>
-        <code style={{ ...codeStyles }} className={`language-${lang}`}>
+        <code style={{ ...codeStyle }} className={`language-${language}`}>
           {codeBlock}
         </code>
       </pre>
     </div>
   );
+};
+
+Highlight.propTypes = {
+  code: PropTypes.string.isRequired,
+  language: PropTypes.string,
+  title: PropTypes.string,
+  container: PropTypes.string,
+  header: PropTypes.string,
+  pre: PropTypes.string,
+  codeStyle: PropTypes.string,
+  button: PropTypes.string,
+  titleStyle: PropTypes.string,
+};
+
+Highlight.defaultProps = {
+  language: 'javascript',
 };
 
 function SvgCopy() {
