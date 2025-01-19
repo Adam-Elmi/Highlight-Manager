@@ -4,15 +4,15 @@ import babel from '@rollup/plugin-babel';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default {
-  input: 'src/Highlight.jsx', // Specify your main entry point here
+  input: 'src/Highlight.jsx',
   output: [
     {
-      file: 'dist/index.cjs.js', // CommonJS bundle
+      file: 'dist/index.cjs.js',
       format: 'cjs',
       sourcemap: true,
     },
     {
-      file: 'dist/index.esm.js', // ES Module bundle
+      file: 'dist/index.esm.js',
       format: 'esm',
       sourcemap: true,
     },
